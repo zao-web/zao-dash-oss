@@ -104,8 +104,10 @@ function collectEntries(string $root): array
     }
 
     foreach ($entries as $name => $entry) {
-        $entries[$name]['purpose'] = purposeFor($name, $entry['hints'], $entry['sources']);
-        $entries[$name]['status'] = statusFor($name, $entry['sources']);
+        sort($entries[$name]['sources']);
+        sort($entries[$name]['hints']);
+        $entries[$name]['purpose'] = purposeFor($name, $entries[$name]['hints'], $entries[$name]['sources']);
+        $entries[$name]['status'] = statusFor($name, $entries[$name]['sources']);
         unset($entries[$name]['hints']);
     }
 

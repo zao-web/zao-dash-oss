@@ -3,21 +3,23 @@
 
 declare(strict_types=1);
 
-$options = getopt('', ['name:', 'dry-run', 'root:', 'help']);
+$options = getopt('', ['name:', 'dry-run', 'write', 'root:', 'help']);
 $positional = array_values(array_filter(
     $argv,
     static fn (string $arg): bool => ! str_starts_with($arg, '-'),
 ));
 
 if (isset($options['help'])) {
-    fwrite(STDOUT, "Usage: php scripts/rebrand.php [name] [--name=NAME] [--dry-run] [--root=PATH]\n");
+    fwrite(STDOUT, "Usage: php scripts/rebrand.php [name] [--name=NAME] [--write] [--root=PATH]\n");
     fwrite(STDOUT, "Default name: Agency Dash\n");
+    fwrite(STDOUT, "Prints planned changes and writes nothing unless --write is passed.\n");
     exit(0);
 }
 
 $name = $options['name'] ?? ($positional[1] ?? 'Agency Dash');
 $name = trim((string) $name);
-$dryRun = array_key_exists('dry-run', $options);
+$write = array_key_exists('write', $options);
+$dryRun = ! $write;
 $root = $options['root'] ?? dirname(__DIR__);
 
 if ($name === '' || str_contains($name, "\n") || str_contains($name, "\r")) {
@@ -25,8 +27,18 @@ if ($name === '' || str_contains($name, "\n") || str_contains($name, "\r")) {
     exit(1);
 }
 
+if (preg_match('/[\'"\\\\`$]/', $name) === 1) {
+    fwrite(STDERR, "Name must not contain quotes, backslashes, or backticks.\n");
+    exit(1);
+}
+
 if (str_contains($name, 'Zao Dash') || str_contains($name, 'Zao Dashboard')) {
     fwrite(STDERR, "Name must not contain the source product string.\n");
+    exit(1);
+}
+
+if (! isAppRoot($root)) {
+    fwrite(STDERR, "Refusing to scan {$root}. The root must contain composer.json and scripts/rebrand.php.\n");
     exit(1);
 }
 
@@ -102,6 +114,13 @@ foreach ($iterator as $file) {
 $verb = $dryRun ? 'Would update' : 'Updated';
 fwrite(STDOUT, "{$verb} {$changedFiles} file(s), {$changedStrings} replacement(s). Name: {$name}\n");
 exit(0);
+
+function isAppRoot(string $root): bool
+{
+    $root = rtrim($root, '/');
+
+    return is_file($root.'/composer.json') && is_file($root.'/scripts/rebrand.php');
+}
 
 /**
  * @return list<array{0: string, 1: string}>

@@ -4,22 +4,22 @@ Use this when you want display copy to say something other than Zao Dash. The sc
 
 ## Run it
 
-From the repository root:
+From the repository root, preview the change first:
 
 ```bash
 php scripts/rebrand.php
 ```
 
-That replaces `Zao Dash` and `Zao Dashboard` with `Agency Dash`.
+That prints the files that would change and writes nothing. The default name is `Agency Dash`.
 
-Pass another name as the first argument or with `--name`:
+Write the changes only after the preview looks right:
 
 ```bash
-php scripts/rebrand.php "Northstar OS"
-php scripts/rebrand.php --name="Northstar OS" --dry-run
+php scripts/rebrand.php --write
+php scripts/rebrand.php "Northstar OS" --write
 ```
 
-`--dry-run` prints the files it would change and does not write them.
+Names cannot contain quotes, backslashes, or backticks. The root must contain `composer.json` and `scripts/rebrand.php`.
 
 ## What it changes
 
@@ -31,7 +31,7 @@ The script walks text files under the repository and replaces these strings, lon
 
 It skips `vendor/`, `node_modules/`, `.git/`, `storage/`, and frontend build output. The script does not rewrite `docs/rebrand.md`, so these instructions keep the original search strings.
 
-Run it on a fresh clone before you commit a fork. A second run with the same name changes nothing.
+Run `php scripts/rebrand.php --write` on a fresh clone before you commit a fork. A second `--write` with the same name changes nothing.
 
 ## What it leaves alone
 

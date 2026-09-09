@@ -31,14 +31,14 @@ Catalog size: 351.
 | `AGENT_DAILY_TOTAL_LIMIT` | configure | Agent runtime limits, models, and circuit-breaker settings. | `config/agents.php` |
 | `AGENT_DEFAULT_BUDGET` | configure | Agent runtime limits, models, and circuit-breaker settings. | `config/agents.php` |
 | `AGENT_DEFAULT_MODEL` | configure | Agent runtime limits, models, and circuit-breaker settings. | `config/agents.php` |
-| `AGENT_INTERNAL_TOKEN` | configure | Shared secret for agent and website-builder callbacks. Leave empty until you run those jobs. | `.env.example`, `app/Services/Agents/ClaudeCliRunner.php`, `app/Http/Controllers/WebsiteBuilderController.php` |
+| `AGENT_INTERNAL_TOKEN` | configure | Shared secret for agent and website-builder callbacks. Leave empty until you run those jobs. | `.env.example`, `app/Http/Controllers/WebsiteBuilderController.php`, `app/Services/Agents/ClaudeCliRunner.php` |
 | `AGENT_MAX_FILE_SIZE_MB` | configure | Agent runtime limits, models, and circuit-breaker settings. | `config/agents.php` |
 | `AGENT_MAX_TURNS` | configure | Agent runtime limits, models, and circuit-breaker settings. | `config/agents.php` |
 | `AGENT_MONTHLY_LIMIT` | configure | Agent runtime limits, models, and circuit-breaker settings. | `config/agents.php` |
 | `AGENT_RUNS_PER_MINUTE` | configure | Agent runtime limits, models, and circuit-breaker settings. | `config/agents.php` |
 | `AGENT_SANDBOX_CLEANUP_HOURS` | configure | Agent runtime limits, models, and circuit-breaker settings. | `config/agents.php` |
 | `AGENT_TIMEOUT` | configure | Agent runtime limits, models, and circuit-breaker settings. | `config/agents.php` |
-| `ANTHROPIC_API_KEY` | configure | Anthropic API credentials for in-app agents. Leave empty to skip model calls. | `.env.example`, `config/services.php`, `app/Services/Agents/ClaudeCliRunner.php`, `app/Services/Agents/InteractiveClaudeRunner.php` |
+| `ANTHROPIC_API_KEY` | configure | Anthropic API credentials for in-app agents. Leave empty to skip model calls. | `.env.example`, `app/Services/Agents/ClaudeCliRunner.php`, `app/Services/Agents/InteractiveClaudeRunner.php`, `config/services.php` |
 | `APPROVAL_SLACK_CHANNEL` | configure | Read by config/approval_policies.php. | `config/approval_policies.php` |
 | `APP_DEBUG` | framework | Shows detailed errors when true. Keep false on any shared host. | `.env.example`, `config/app.php` |
 | `APP_DISPLAY_TIMEZONE` | framework | Read by config/app.php. | `config/app.php` |
@@ -49,19 +49,19 @@ Catalog size: 351.
 | `APP_LOCALE` | framework | Default locale. | `.env.example`, `config/app.php` |
 | `APP_MAINTENANCE_DRIVER` | framework | Driver for php artisan down. | `.env.example`, `config/app.php` |
 | `APP_MAINTENANCE_STORE` | framework | Read by config/app.php. | `config/app.php` |
-| `APP_NAME` | framework | Product name shown in the UI, mail, and session key prefix. | `.env.example`, `config/app.php`, `config/session.php`, `config/database.php`, +1 |
+| `APP_NAME` | framework | Product name shown in the UI, mail, and session key prefix. | `.env.example`, `config/app.php`, `config/cache.php`, `config/database.php`, +1 |
 | `APP_PREVIOUS_KEYS` | framework | Read by config/app.php. | `config/app.php` |
-| `APP_URL` | framework | Public URL of this app. MCP clients and OAuth redirects use it. | `.env.example`, `config/app.php`, `config/mail.php`, `config/filesystems.php` |
+| `APP_URL` | framework | Public URL of this app. MCP clients and OAuth redirects use it. | `.env.example`, `config/app.php`, `config/filesystems.php`, `config/mail.php` |
 | `AUTH_GUARD` | framework | Read by config/auth.php. | `config/auth.php` |
 | `AUTH_MODEL` | framework | Read by config/auth.php. | `config/auth.php` |
 | `AUTH_PASSWORD_BROKER` | framework | Read by config/auth.php. | `config/auth.php` |
 | `AUTH_PASSWORD_RESET_TOKEN_TABLE` | framework | Read by config/auth.php. | `config/auth.php` |
 | `AUTH_PASSWORD_TIMEOUT` | framework | Read by config/auth.php. | `config/auth.php` |
-| `AWS_ACCESS_KEY_ID` | framework | S3 credentials for the durable upload disk. Needed on Laravel Cloud. | `.env.example`, `config/queue.php`, `config/filesystems.php`, `config/cache.php`, +1 |
+| `AWS_ACCESS_KEY_ID` | framework | S3 credentials for the durable upload disk. Needed on Laravel Cloud. | `.env.example`, `config/cache.php`, `config/filesystems.php`, `config/queue.php`, +1 |
 | `AWS_BUCKET` | framework | S3 credentials for the durable upload disk. Needed on Laravel Cloud. | `.env.example`, `config/filesystems.php` |
-| `AWS_DEFAULT_REGION` | framework | S3 credentials for the durable upload disk. Needed on Laravel Cloud. | `.env.example`, `config/queue.php`, `config/filesystems.php`, `config/cache.php`, +1 |
+| `AWS_DEFAULT_REGION` | framework | S3 credentials for the durable upload disk. Needed on Laravel Cloud. | `.env.example`, `config/cache.php`, `config/filesystems.php`, `config/queue.php`, +1 |
 | `AWS_ENDPOINT` | framework | S3 credentials for the durable upload disk. Needed on Laravel Cloud. | `config/filesystems.php` |
-| `AWS_SECRET_ACCESS_KEY` | framework | S3 credentials for the durable upload disk. Needed on Laravel Cloud. | `.env.example`, `config/queue.php`, `config/filesystems.php`, `config/cache.php`, +1 |
+| `AWS_SECRET_ACCESS_KEY` | framework | S3 credentials for the durable upload disk. Needed on Laravel Cloud. | `.env.example`, `config/cache.php`, `config/filesystems.php`, `config/queue.php`, +1 |
 | `AWS_URL` | framework | S3 credentials for the durable upload disk. Needed on Laravel Cloud. | `config/filesystems.php` |
 | `AWS_USE_PATH_STYLE_ENDPOINT` | framework | S3 credentials for the durable upload disk. Needed on Laravel Cloud. | `.env.example`, `config/filesystems.php` |
 | `BANK_ACCOUNT_NAME` | configure | Account holder name printed on invoices. | `.env.example`, `config/app.php` |
@@ -78,7 +78,7 @@ Catalog size: 351.
 | `CACHE_STORE` | framework | Cache store. database is enough locally. | `.env.example`, `config/cache.php` |
 | `CHROME_PATH` | configure | Chrome binary for the tax-agency bridge. That bridge is stubbed in this snapshot. | `config/services.php` |
 | `CLAUDE_CLI_PATH` | configure | Read by config/self-healing.php. | `config/self-healing.php` |
-| `CLAUDE_CODE_OAUTH_TOKEN` | configure | Claude CLI OAuth token for local Claude Code runs. Distinct from ANTHROPIC_API_KEY. | `config/services.php`, `app/Services/AI/ClaudeCliService.php`, `app/Services/Agents/ClaudeCliRunner.php`, `app/Services/Agents/InteractiveClaudeRunner.php`, +1 |
+| `CLAUDE_CODE_OAUTH_TOKEN` | configure | Claude CLI OAuth token for local Claude Code runs. Distinct from ANTHROPIC_API_KEY. | `app/Jobs/SelfHealingJob.php`, `app/Services/AI/ClaudeCliService.php`, `app/Services/Agents/ClaudeCliRunner.php`, `app/Services/Agents/InteractiveClaudeRunner.php`, +1 |
 | `CLIENT_EMAIL_CC` | configure | Extra CC on client emails. | `.env.example`, `config/app.php` |
 | `CLOUDFLARE_ACCOUNT_ID` | configure | Cloudflare account and Workers AI settings. | `config/services.php` |
 | `CLOUDFLARE_API_TOKEN` | configure | Cloudflare account and Workers AI settings. | `config/services.php` |
@@ -94,7 +94,7 @@ Catalog size: 351.
 | `DB_CACHE_TABLE` | framework | Database connection. SQLite is the local default. | `config/cache.php` |
 | `DB_CHARSET` | framework | Database connection. SQLite is the local default. | `config/database.php` |
 | `DB_COLLATION` | framework | Database connection. SQLite is the local default. | `config/database.php` |
-| `DB_CONNECTION` | framework | Database connection. SQLite is the local default. | `.env.example`, `config/queue.php`, `config/database.php` |
+| `DB_CONNECTION` | framework | Database connection. SQLite is the local default. | `.env.example`, `config/database.php`, `config/queue.php` |
 | `DB_DATABASE` | framework | Database connection. SQLite is the local default. | `.env.example`, `config/database.php` |
 | `DB_ENCRYPT` | framework | Database connection. SQLite is the local default. | `config/database.php` |
 | `DB_FOREIGN_KEYS` | framework | Database connection. SQLite is the local default. | `config/database.php` |
@@ -117,11 +117,11 @@ Catalog size: 351.
 | `FILESYSTEM_DISK` | framework | Default filesystem disk. Use s3 on Laravel Cloud. | `.env.example`, `config/filesystems.php` |
 | `FILESYSTEM_DISK_PUBLIC` | framework | Read by config/filesystems.php. | `config/filesystems.php` |
 | `FINANCIAL_ARCHIVE_ROOT` | configure | Read by config/tax.php. | `config/tax.php` |
-| `GEMINI_API_KEY` | configure | Google Gemini API credentials. | `.env.example`, `config/services.php`, `app/Services/AI/GeminiService.php` |
+| `GEMINI_API_KEY` | configure | Google Gemini API credentials. | `.env.example`, `app/Services/AI/GeminiService.php`, `config/services.php` |
 | `GITHUB_APP_ID` | configure | GitHub App or OAuth credentials. Empty disables GitHub sync. | `.env.example`, `config/services.php` |
-| `GITHUB_APP_PRIVATE_KEY` | configure | GitHub App or OAuth credentials. Empty disables GitHub sync. | `config/services.php`, `app/Console/Commands/SetupGitHubKey.php` |
-| `GITHUB_APP_PRIVATE_KEY_BASE64` | configure | GitHub App or OAuth credentials. Empty disables GitHub sync. | `.env.example`, `config/services.php`, `app/Console/Commands/SetupGitHubKey.php` |
-| `GITHUB_APP_PRIVATE_KEY_PATH` | configure | GitHub App or OAuth credentials. Empty disables GitHub sync. | `config/services.php`, `app/Console/Commands/SetupGitHubKey.php` |
+| `GITHUB_APP_PRIVATE_KEY` | configure | GitHub App or OAuth credentials. Empty disables GitHub sync. | `app/Console/Commands/SetupGitHubKey.php`, `config/services.php` |
+| `GITHUB_APP_PRIVATE_KEY_BASE64` | configure | GitHub App or OAuth credentials. Empty disables GitHub sync. | `.env.example`, `app/Console/Commands/SetupGitHubKey.php`, `config/services.php` |
+| `GITHUB_APP_PRIVATE_KEY_PATH` | configure | GitHub App or OAuth credentials. Empty disables GitHub sync. | `app/Console/Commands/SetupGitHubKey.php`, `config/services.php` |
 | `GITHUB_APP_SLUG` | configure | GitHub App or OAuth credentials. Empty disables GitHub sync. | `.env.example`, `config/services.php` |
 | `GITHUB_CLIENT_ID` | configure | GitHub App or OAuth credentials. Empty disables GitHub sync. | `.env.example`, `config/services.php` |
 | `GITHUB_CLIENT_SECRET` | configure | GitHub App or OAuth credentials. Empty disables GitHub sync. | `.env.example`, `config/services.php` |
@@ -145,7 +145,7 @@ Catalog size: 351.
 | `HARVEST_CLIENT_ID` | configure | Harvest time-tracking OAuth. Empty disables Harvest sync. | `.env.example`, `config/services.php` |
 | `HARVEST_CLIENT_SECRET` | configure | Harvest time-tracking OAuth. Empty disables Harvest sync. | `.env.example`, `config/services.php` |
 | `HARVEST_REDIRECT_URI` | configure | Harvest time-tracking OAuth. Empty disables Harvest sync. | `config/services.php` |
-| `HOME` | process | Home directory of the current process. Set by the operating system, not by this app. | `config/tax.php`, `app/Services/SpinupWp/SpinupWpSshService.php`, `app/Services/Symphony/WorkflowConfig.php`, `app/Services/X/XBookmarkEnricher.php`, +3 |
+| `HOME` | process | Home directory of the current process. Set by the operating system, not by this app. | `app/Services/Invoicing/PdfInvoiceGenerator.php`, `app/Services/Pdf/TailwindPdf.php`, `app/Services/Reports/RetainerReportPdfGenerator.php`, `app/Services/SpinupWp/SpinupWpSshService.php`, +3 |
 | `HORIZON_DOMAIN` | framework | Laravel Horizon settings. | `config/horizon.php` |
 | `HORIZON_NAME` | framework | Laravel Horizon settings. | `config/horizon.php` |
 | `HORIZON_PATH` | framework | Laravel Horizon settings. | `config/horizon.php` |
@@ -155,7 +155,7 @@ Catalog size: 351.
 | `IPINFO_TOKEN` | stub | Read by config/location.php. | `config/location.php` |
 | `IP_API_TOKEN` | stub | Read by config/location.php. | `config/location.php` |
 | `KLOUDEND_TOKEN` | stub | Read by config/location.php. | `config/location.php` |
-| `LARAVEL_CLOUD` | code-only | Set by Laravel Cloud. Do not invent a local value. | `app/Services/Pdf/TailwindPdf.php`, `app/Services/Invoicing/PdfInvoiceGenerator.php`, `app/Services/Reports/RetainerReportPdfGenerator.php` |
+| `LARAVEL_CLOUD` | code-only | Set by Laravel Cloud. Do not invent a local value. | `app/Services/Invoicing/PdfInvoiceGenerator.php`, `app/Services/Pdf/TailwindPdf.php`, `app/Services/Reports/RetainerReportPdfGenerator.php` |
 | `LARAVEL_CLOUD_API_TOKEN` | configure | Laravel Cloud API identifiers for environment control. Optional locally. | `config/services.php` |
 | `LARAVEL_CLOUD_APP_ID` | configure | Laravel Cloud API identifiers for environment control. Optional locally. | `config/services.php` |
 | `LARAVEL_CLOUD_ENVIRONMENT_ID` | configure | Laravel Cloud API identifiers for environment control. Optional locally. | `config/services.php` |
@@ -247,19 +247,19 @@ Catalog size: 351.
 | `REDIS_CACHE_LOCK_CONNECTION` | framework | Redis connection for cache, queues, or Horizon. | `config/cache.php` |
 | `REDIS_CLIENT` | framework | Redis connection for cache, queues, or Horizon. | `.env.example`, `config/database.php` |
 | `REDIS_CLUSTER` | framework | Redis connection for cache, queues, or Horizon. | `config/database.php` |
-| `REDIS_DB` | framework | Redis connection for cache, queues, or Horizon. | `config/reverb.php`, `config/database.php` |
-| `REDIS_HOST` | framework | Redis connection for cache, queues, or Horizon. | `.env.example`, `config/reverb.php`, `config/database.php` |
+| `REDIS_DB` | framework | Redis connection for cache, queues, or Horizon. | `config/database.php`, `config/reverb.php` |
+| `REDIS_HOST` | framework | Redis connection for cache, queues, or Horizon. | `.env.example`, `config/database.php`, `config/reverb.php` |
 | `REDIS_MAX_RETRIES` | framework | Redis connection for cache, queues, or Horizon. | `config/database.php` |
-| `REDIS_PASSWORD` | framework | Redis connection for cache, queues, or Horizon. | `.env.example`, `config/reverb.php`, `config/database.php` |
+| `REDIS_PASSWORD` | framework | Redis connection for cache, queues, or Horizon. | `.env.example`, `config/database.php`, `config/reverb.php` |
 | `REDIS_PERSISTENT` | framework | Redis connection for cache, queues, or Horizon. | `config/database.php` |
-| `REDIS_PORT` | framework | Redis connection for cache, queues, or Horizon. | `.env.example`, `config/reverb.php`, `config/database.php` |
+| `REDIS_PORT` | framework | Redis connection for cache, queues, or Horizon. | `.env.example`, `config/database.php`, `config/reverb.php` |
 | `REDIS_PREFIX` | framework | Redis connection for cache, queues, or Horizon. | `config/database.php` |
 | `REDIS_QUEUE` | framework | Redis connection for cache, queues, or Horizon. | `config/queue.php` |
 | `REDIS_QUEUE_CONNECTION` | framework | Redis connection for cache, queues, or Horizon. | `config/queue.php` |
 | `REDIS_QUEUE_RETRY_AFTER` | framework | Redis connection for cache, queues, or Horizon. | `config/queue.php` |
 | `REDIS_TIMEOUT` | framework | Redis connection for cache, queues, or Horizon. | `config/reverb.php` |
-| `REDIS_URL` | framework | Redis connection for cache, queues, or Horizon. | `config/reverb.php`, `config/database.php` |
-| `REDIS_USERNAME` | framework | Redis connection for cache, queues, or Horizon. | `config/reverb.php`, `config/database.php` |
+| `REDIS_URL` | framework | Redis connection for cache, queues, or Horizon. | `config/database.php`, `config/reverb.php` |
+| `REDIS_USERNAME` | framework | Redis connection for cache, queues, or Horizon. | `config/database.php`, `config/reverb.php` |
 | `REPLICATE_API_TOKEN` | configure | Replicate token for image generation. | `.env.example`, `config/services.php` |
 | `RESEND_API_KEY` | configure | Read by config/services.php. | `config/services.php` |
 | `REVERB_APP_ACTIVITY_TIMEOUT` | framework | Laravel Reverb app id, key, and host. Local placeholders in .env.example are not secrets. | `config/reverb.php` |

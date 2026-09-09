@@ -2,7 +2,7 @@
 
 Zao Dash is an agency operating system. It tracks clients, projects, retainers, invoices, and AI agents. This public tree is a sanitized snapshot of the private product. Household finance, CPA/tax office, and personal-bank tools are not included.
 
-To show a different product name in the UI and docs, run `php scripts/rebrand.php`. The default name is `Agency Dash`. Pass another name with `php scripts/rebrand.php "Northstar OS"`. Details are in [docs/rebrand.md](docs/rebrand.md).
+To show a different product name in the UI and docs, preview with `php scripts/rebrand.php`, then write with `php scripts/rebrand.php --write`. The default name is `Agency Dash`. Pass another name with `php scripts/rebrand.php "Northstar OS" --write`. Details are in [docs/rebrand.md](docs/rebrand.md).
 
 ## Stack
 
@@ -28,7 +28,7 @@ To show a different product name in the UI and docs, run `php scripts/rebrand.ph
 5. Open the app URL from `.env` (`APP_URL`, default `http://localhost:8000`).
 6. Sign in with the seeder owner if you ran `php artisan db:seed` (`owner@example.com` / `password`). Change that password before any shared deploy.
 7. Connect only the integrations you need. Empty env values stay disabled.
-8. Optional. Rebrand display copy with `php scripts/rebrand.php` before you commit a fork.
+8. Optional. Preview a rebrand with `php scripts/rebrand.php`, then apply it with `php scripts/rebrand.php --write` before you commit a fork.
 9. Optional. Mint an MCP token and connect Cursor or Claude. See [Connect a local assistant](docs/getting-started.md).
 
 Laravel Sail is available as a Composer dev dependency if you prefer Docker. This tree does not ship a root `docker-compose.yml`. Publish Sail's compose file with `php artisan sail:install` when you want that path.
