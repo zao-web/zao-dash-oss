@@ -67,6 +67,16 @@ function collectEntries(string $root): array
         }
     }
 
+    $mcpConfig = $root.'/.mcp.json';
+    if (is_file($mcpConfig)) {
+        $mcpContents = file_get_contents($mcpConfig);
+        if (is_string($mcpContents) && preg_match_all('/\$\{([A-Z][A-Z0-9_]*)\}/', $mcpContents, $mcpMatches) !== false) {
+            foreach ($mcpMatches[1] as $name) {
+                remember($entries, $name, '.mcp.json');
+            }
+        }
+    }
+
     $scanRoots = ['config', 'app', 'routes', 'bootstrap'];
     $pattern = '/env\(\s*[\'"]([A-Z][A-Z0-9_]*)[\'"]([^)]*)\)/';
 
@@ -229,6 +239,10 @@ function statusFor(string $name, array $sources): string
     $inExample = in_array('.env.example', $sources, true);
     $inConfig = array_filter($sources, static fn (string $source): bool => str_starts_with($source, 'config/'));
 
+    if (in_array('.mcp.json', $sources, true) && ! $inExample && $inConfig === []) {
+        return 'client';
+    }
+
     if ($inExample || $inConfig !== []) {
         return 'configure';
     }
@@ -350,7 +364,7 @@ function renderCatalog(array $entries): string
     $lines = [];
     $lines[] = '# Environment variables';
     $lines[] = '';
-    $lines[] = 'Reference for every environment variable this tree reads. Generated from `.env.example` and `env()` calls in `config/`, `app/`, `routes/`, and `bootstrap/`.';
+    $lines[] = 'Reference for every environment variable this tree reads. Generated from `.env.example`, `${NAME}` placeholders in `.mcp.json`, and `env()` calls in `config/`, `app/`, `routes/`, and `bootstrap/`.';
     $lines[] = '';
     $lines[] = 'Regenerate after a config change:';
     $lines[] = '';
@@ -366,6 +380,7 @@ function renderCatalog(array $entries): string
     $lines[] = '- `configure` is an integration or product setting. An empty value disables that integration.';
     $lines[] = '- `stub` is present so older notes and migrations still parse. Those HTTP routes and MCP tools are not registered in this snapshot.';
     $lines[] = '- `code-only` is read by application code and is absent from `.env.example`.';
+    $lines[] = '- `client` is read by an MCP client process, not by the Laravel app.';
     $lines[] = '';
     $lines[] = "Catalog size: {$count}.";
     $lines[] = '';

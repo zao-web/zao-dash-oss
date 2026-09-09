@@ -6,21 +6,27 @@ First-run client setup for Cursor, Claude, and other local MCP clients is in [Co
 
 ## Quick Start
 
-### Using with Claude Desktop / Claude Code
+### Using with Cursor, Claude Desktop, or Claude Code
 
-The MCP server is configured in `.mcp.json`:
+The checked-in client config is `.mcp.json`. It calls the HTTP server through `mcp-remote`. Start the app first, then mint a token with `php artisan mcp:token`.
 
 ```json
 {
   "mcpServers": {
     "zao-dash": {
-      "command": "php",
-      "args": ["artisan", "mcp:start", "zao-dash"],
-      "cwd": "/path/to/zao-dash"
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "http://localhost:8000/mcp/zao-dash",
+        "--header",
+        "Authorization: Bearer ${ZAO_DASH_MCP_TOKEN}"
+      ]
     }
   }
 }
 ```
+
+`php artisan mcp:start zao-dash` is a stdio server. It waits on stdin. Use it only when the client speaks stdio, not as a stand-in for the HTTP URL above.
 
 ### Testing with MCP Inspector
 

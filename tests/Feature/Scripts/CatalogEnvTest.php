@@ -16,6 +16,7 @@ it('catalogs every example and config environment variable without values', func
     expect($code)->toBe(0, $error)
         ->and($output)->toContain('`APP_NAME`')
         ->and($output)->toContain('`AGENT_INTERNAL_TOKEN`')
+        ->and($output)->toContain('`ZAO_DASH_MCP_TOKEN`')
         ->and($output)->toContain('`PLAID_CLIENT_ID`')
         ->and($output)->toContain('stub')
         ->and($output)->not->toContain('sk-')

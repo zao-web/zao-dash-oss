@@ -1,6 +1,6 @@
 # Environment variables
 
-Reference for every environment variable this tree reads. Generated from `.env.example` and `env()` calls in `config/`, `app/`, `routes/`, and `bootstrap/`.
+Reference for every environment variable this tree reads. Generated from `.env.example`, `${NAME}` placeholders in `.mcp.json`, and `env()` calls in `config/`, `app/`, `routes/`, and `bootstrap/`.
 
 Regenerate after a config change:
 
@@ -16,8 +16,9 @@ Status values:
 - `configure` is an integration or product setting. An empty value disables that integration.
 - `stub` is present so older notes and migrations still parse. Those HTTP routes and MCP tools are not registered in this snapshot.
 - `code-only` is read by application code and is absent from `.env.example`.
+- `client` is read by an MCP client process, not by the Laravel app.
 
-Catalog size: 350.
+Catalog size: 351.
 
 | Variable | Status | Purpose | Sources |
 | --- | --- | --- | --- |
@@ -371,3 +372,4 @@ Catalog size: 350.
 | `X_CLIENT_SECRET` | configure | X (Twitter) OAuth. | `.env.example`, `config/services.php` |
 | `X_REDIRECT_URI` | configure | X (Twitter) OAuth. | `.env.example`, `config/services.php` |
 | `YELP_API_KEY` | configure | Yelp API key. | `config/services.php` |
+| `ZAO_DASH_MCP_TOKEN` | client | Client-side Sanctum token for MCP. Create with php artisan mcp:token. Do not put a real token in .env.example. | `.mcp.json` |
