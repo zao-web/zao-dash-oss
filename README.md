@@ -2,6 +2,8 @@
 
 Zao Dash is an agency operating system. It tracks clients, projects, retainers, invoices, and AI agents. This public tree is a sanitized snapshot of the private product. Household finance, CPA/tax office, and personal-bank tools are not included.
 
+To show a different product name in the UI and docs, preview with `php scripts/rebrand.php`, then write with `php scripts/rebrand.php --write`. The default name is `Agency Dash`. Pass another name with `php scripts/rebrand.php "Northstar OS" --write`. Details are in [docs/rebrand.md](docs/rebrand.md).
+
 ## Stack
 
 | Layer | Version |
@@ -23,15 +25,27 @@ Zao Dash is an agency operating system. It tracks clients, projects, retainers, 
 2. Copy `.env.example` to `.env`.
 3. Run `composer setup`. That installs PHP deps, generates `APP_KEY`, migrates, installs npm packages, and builds frontend assets.
 4. Run `composer dev` for the HTTP server, queue listener, logs, and Vite.
-5. Open the app URL from `.env` (`APP_URL`, default `http://localhost`).
+5. Open the app URL from `.env` (`APP_URL`, default `http://localhost:8000`).
 6. Sign in with the seeder owner if you ran `php artisan db:seed` (`owner@example.com` / `password`). Change that password before any shared deploy.
 7. Connect only the integrations you need. Empty env values stay disabled.
+8. Optional. Preview a rebrand with `php scripts/rebrand.php`, then apply it with `php scripts/rebrand.php --write` before you commit a fork.
+9. Optional. Mint an MCP token and connect Cursor or Claude. See [Connect a local assistant](docs/getting-started.md).
 
 Laravel Sail is available as a Composer dev dependency if you prefer Docker. This tree does not ship a root `docker-compose.yml`. Publish Sail's compose file with `php artisan sail:install` when you want that path.
 
 ## Environment variables
 
 Copy `.env.example` and fill values you use. Do not commit `.env`.
+
+The complete catalog of names, status, and purpose is generated from `.env.example`, `${NAME}` placeholders in `.mcp.json`, and `env()` calls:
+
+```bash
+php scripts/catalog-env.php
+```
+
+That writes [docs/environment.md](docs/environment.md). The catalog lists names only. It never includes secret values.
+
+Set these on first run. Leave the rest empty until you use the feature.
 
 | Variable | Purpose |
 | --- | --- |
@@ -46,7 +60,6 @@ Copy `.env.example` and fill values you use. Do not commit `.env`.
 | `SLACK_*` | Slack app OAuth and bot token. |
 | `GOOGLE_*` | Gmail / Calendar / Drive OAuth. |
 | `GITHUB_*` | GitHub App credentials. |
-| `HARVEST_*` | Harvest time tracking. |
 | `QUICKBOOKS_*` | QuickBooks Online. Use `sandbox` until you are ready. |
 | `PAYPAL_*` | Invoicing. Keep `PAYPAL_MODE=sandbox` until go-live. |
 | `COMPANY_*` | Name and address printed on invoices. |
@@ -58,7 +71,7 @@ Integration keys that you leave blank disable that integration. The example file
 
 ## MCP
 
-HTTP MCP servers register in `routes/ai.php`.
+HTTP MCP servers register in `routes/ai.php`. Step-by-step client setup is in [Connect a local assistant](docs/getting-started.md).
 
 | Path | Server | Role |
 | --- | --- | --- |
