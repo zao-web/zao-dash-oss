@@ -75,6 +75,21 @@ it('does not write files on a dry run', function () {
         ->and(file_get_contents($root.'/note.md'))->toBe('Zao Dash');
 });
 
+it('leaves the rebrand instructions file unchanged', function () {
+    $root = sys_get_temp_dir().'/rebrand-'.uniqid();
+    mkdir($root.'/docs', 0777, true);
+    $needles = "Replaces `Zao Dash` and `Zao Dashboard`.\n";
+    file_put_contents($root.'/docs/rebrand.md', $needles);
+    file_put_contents($root.'/note.md', 'Zao Dash and Zao Dash');
+
+    $result = runRebrand($root, 'Agency Dash');
+
+    expect($result['code'])->toBe(0)
+        ->and(file_get_contents($root.'/docs/rebrand.md'))->toBe($needles)
+        ->and(file_get_contents($root.'/note.md'))->toBe('Agency Dash and Agency Dash')
+        ->and($result['output'])->toContain('2 replacement(s)');
+});
+
 /**
  * @return array{code: int, output: string}
  */

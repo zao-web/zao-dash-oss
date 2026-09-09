@@ -21,7 +21,11 @@ it('catalogs every example and config environment variable without values', func
         ->and($output)->toContain('stub')
         ->and($output)->not->toContain('sk-')
         ->and($output)->not->toContain('xoxb-')
-        ->and($output)->not->toContain('AKIA');
+        ->and($output)->not->toContain('amazonaws.com')
+        ->and($output)->not->toContain('https://');
+
+    expect($output)->toMatch('/\| `SQS_PREFIX` \| configure \| Read by `?config\/queue\.php/');
+    expect($output)->toMatch('/\| `HOME` \| process \|/');
 
     $exampleKeys = exampleKeys();
     foreach ($exampleKeys as $key) {

@@ -29,7 +29,7 @@ The script walks text files under the repository and replaces these strings, lon
 - `Zao Dash`
 - `ZAO DASH`
 
-It skips `vendor/`, `node_modules/`, `.git/`, `storage/`, and frontend build output. It does not rewrite `scripts/rebrand.php`, so you can run it again.
+It skips `vendor/`, `node_modules/`, `.git/`, `storage/`, and frontend build output. The script does not rewrite `docs/rebrand.md`, so these instructions keep the original search strings.
 
 Run it on a fresh clone before you commit a fork. A second run with the same name changes nothing.
 

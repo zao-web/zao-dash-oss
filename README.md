@@ -37,7 +37,7 @@ Laravel Sail is available as a Composer dev dependency if you prefer Docker. Thi
 
 Copy `.env.example` and fill values you use. Do not commit `.env`.
 
-The complete catalog of names, status, and purpose is generated from `.env.example` and `env()` calls:
+The complete catalog of names, status, and purpose is generated from `.env.example`, `${NAME}` placeholders in `.mcp.json`, and `env()` calls:
 
 ```bash
 php scripts/catalog-env.php

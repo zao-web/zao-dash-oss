@@ -41,6 +41,11 @@ $skipDirs = [
     'public/build',
 ];
 
+$skipFiles = [
+    'docs/rebrand.md',
+    'scripts/rebrand.php',
+];
+
 $extensions = [
     'php', 'vue', 'ts', 'tsx', 'js', 'mjs', 'cjs', 'json', 'md', 'css',
     'html', 'yml', 'yaml', 'xml', 'txt', 'stub', 'env', 'example', 'blade.php',
@@ -62,7 +67,7 @@ foreach ($iterator as $file) {
     $path = $file->getPathname();
     $relative = ltrim(str_replace('\\', '/', substr($path, strlen(rtrim($root, '/')))), '/');
 
-    if ($path === $self || shouldSkip($relative, $skipDirs)) {
+    if ($path === $self || shouldSkip($relative, $skipDirs, $skipFiles)) {
         continue;
     }
 
@@ -85,7 +90,7 @@ foreach ($iterator as $file) {
     }
 
     $changedFiles++;
-    $changedStrings += countChanges($original, $updated);
+    $changedStrings += countDisplayStringHits($original, $replacements);
 
     if (! $dryRun) {
         file_put_contents($path, $updated);
@@ -128,9 +133,14 @@ function applyReplacements(string $contents, array $replacements): string
 
 /**
  * @param  list<string>  $skipDirs
+ * @param  list<string>  $skipFiles
  */
-function shouldSkip(string $relative, array $skipDirs): bool
+function shouldSkip(string $relative, array $skipDirs, array $skipFiles): bool
 {
+    if (in_array($relative, $skipFiles, true)) {
+        return true;
+    }
+
     foreach ($skipDirs as $dir) {
         if ($relative === $dir || str_starts_with($relative, $dir.'/')) {
             return true;
@@ -154,11 +164,18 @@ function hasAllowedExtension(string $filename, array $extensions): bool
     return false;
 }
 
-function countChanges(string $before, string $after): int
+/**
+ * @param  list<array{0: string, 1: string}>  $replacements
+ */
+function countDisplayStringHits(string $contents, array $replacements): int
 {
-    if ($before === $after) {
-        return 0;
+    $count = 0;
+    $remaining = $contents;
+
+    foreach ($replacements as [$from, $to]) {
+        $count += substr_count($remaining, $from);
+        $remaining = str_replace($from, $to, $remaining);
     }
 
-    return 1;
+    return $count;
 }

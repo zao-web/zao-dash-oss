@@ -137,7 +137,12 @@ function remember(array &$entries, string $name, string $source, string $hint = 
 
 function trailingHint(string $callTail): string
 {
-    if (preg_match('/\/\/\s*(.+)$/', $callTail, $match) !== 1) {
+    $withoutStrings = preg_replace("/'(?:\\\\.|[^'\\\\])*'|\"(?:\\\\.|[^\"\\\\])*\"/", '', $callTail);
+    if (! is_string($withoutStrings)) {
+        return '';
+    }
+
+    if (preg_match('/\/\/\s*(.+)$/', $withoutStrings, $match) !== 1) {
         return '';
     }
 
@@ -209,6 +214,10 @@ function statusFor(string $name, array $sources): string
         if (str_starts_with($name, $prefix)) {
             return 'stub';
         }
+    }
+
+    if (in_array($name, ['HOME'], true)) {
+        return 'process';
     }
 
     if (in_array($name, ['LOCATION_TESTING'], true)) {
@@ -288,6 +297,7 @@ function exactPurposes(): array
         'BROWSERLESS_API_KEY' => 'Optional Browserless key for headless browsing.',
         'LINEAR_API_KEY' => 'Optional Linear API key referenced by application code.',
         'LARAVEL_CLOUD' => 'Set by Laravel Cloud. Do not invent a local value.',
+        'HOME' => 'Home directory of the current process. Set by the operating system, not by this app.',
         'LOCATION_TESTING' => 'Location package test flag. Household geo lookups have no public HTTP route in this snapshot.',
     ];
 }
@@ -372,6 +382,7 @@ function renderCatalog(array $entries): string
     $lines[] = '- `stub` is present so older notes and migrations still parse. Those HTTP routes and MCP tools are not registered in this snapshot.';
     $lines[] = '- `code-only` is read by application code and is absent from `.env.example`.';
     $lines[] = '- `client` is read by an MCP client process, not by the Laravel app.';
+    $lines[] = '- `process` is a system or process variable. Do not set it in `.env` for this app.';
     $lines[] = '';
     $lines[] = "Catalog size: {$count}.";
     $lines[] = '';

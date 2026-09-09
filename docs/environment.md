@@ -17,6 +17,7 @@ Status values:
 - `stub` is present so older notes and migrations still parse. Those HTTP routes and MCP tools are not registered in this snapshot.
 - `code-only` is read by application code and is absent from `.env.example`.
 - `client` is read by an MCP client process, not by the Laravel app.
+- `process` is a system or process variable. Do not set it in `.env` for this app.
 
 Catalog size: 351.
 
@@ -144,7 +145,7 @@ Catalog size: 351.
 | `HARVEST_CLIENT_ID` | configure | Harvest time-tracking OAuth. Empty disables Harvest sync. | `.env.example`, `config/services.php` |
 | `HARVEST_CLIENT_SECRET` | configure | Harvest time-tracking OAuth. Empty disables Harvest sync. | `.env.example`, `config/services.php` |
 | `HARVEST_REDIRECT_URI` | configure | Harvest time-tracking OAuth. Empty disables Harvest sync. | `config/services.php` |
-| `HOME` | configure | Read by config/tax.php. | `config/tax.php`, `app/Services/SpinupWp/SpinupWpSshService.php`, `app/Services/Symphony/WorkflowConfig.php`, `app/Services/X/XBookmarkEnricher.php`, +3 |
+| `HOME` | process | Home directory of the current process. Set by the operating system, not by this app. | `config/tax.php`, `app/Services/SpinupWp/SpinupWpSshService.php`, `app/Services/Symphony/WorkflowConfig.php`, `app/Services/X/XBookmarkEnricher.php`, +3 |
 | `HORIZON_DOMAIN` | framework | Laravel Horizon settings. | `config/horizon.php` |
 | `HORIZON_NAME` | framework | Laravel Horizon settings. | `config/horizon.php` |
 | `HORIZON_PATH` | framework | Laravel Horizon settings. | `config/horizon.php` |
@@ -330,7 +331,7 @@ Catalog size: 351.
 | `SPINUPWP_SSH_KEY_PATH` | configure | SpinupWP hosting API and SSH material for the website builder. | `config/services.php` |
 | `SPINUPWP_SSH_PRIVATE_KEY` | configure | SpinupWP hosting API and SSH material for the website builder. | `config/services.php` |
 | `SPINUPWP_STAGING_DOMAIN` | configure | SpinupWP hosting API and SSH material for the website builder. | `.env.example`, `config/services.php` |
-| `SQS_PREFIX` | configure | sqs.us-east-1.amazonaws.com/your-account-id'. | `config/queue.php` |
+| `SQS_PREFIX` | configure | Read by config/queue.php. | `config/queue.php` |
 | `SQS_QUEUE` | configure | Read by config/queue.php. | `config/queue.php` |
 | `SQS_SUFFIX` | configure | Read by config/queue.php. | `config/queue.php` |
 | `TAX_AGENCY_BRIDGE_HEADERS_JSON` | stub | Tax-agency bridge settings. Those HTTP routes and MCP tools are stubbed in this snapshot. | `config/services.php` |
