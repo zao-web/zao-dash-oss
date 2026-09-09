@@ -3,15 +3,6 @@
 
 declare(strict_types=1);
 
-/**
- * Build docs/environment.md from .env.example and env() calls.
- * Prints names and purposes only. Never writes values.
- *
- * Usage:
- *   php scripts/catalog-env.php
- *   php scripts/catalog-env.php --stdout
- *   php scripts/catalog-env.php --check
- */
 $options = getopt('', ['stdout', 'check', 'root:', 'out:', 'help']);
 
 if (isset($options['help'])) {

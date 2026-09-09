@@ -3,14 +3,6 @@
 
 declare(strict_types=1);
 
-/**
- * Replace product display strings. Code identifiers stay put.
- *
- * Usage:
- *   php scripts/rebrand.php
- *   php scripts/rebrand.php "Northstar OS"
- *   php scripts/rebrand.php --name="Northstar OS" --dry-run
- */
 $options = getopt('', ['name:', 'dry-run', 'root:', 'help']);
 $positional = array_values(array_filter(
     $argv,
@@ -38,7 +30,7 @@ if (str_contains($name, 'Zao Dash') || str_contains($name, 'Zao Dashboard')) {
     exit(1);
 }
 
-$replacements = replacementTable($name);
+$replacements = displayStringReplacements($name);
 
 $skipDirs = [
     '.git',
@@ -109,7 +101,7 @@ exit(0);
 /**
  * @return list<array{0: string, 1: string}>
  */
-function replacementTable(string $name): array
+function displayStringReplacements(string $name): array
 {
     $upper = mb_strtoupper($name);
 
