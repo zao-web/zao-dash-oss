@@ -25,7 +25,7 @@ To show a different product name in the UI and docs, run `php scripts/rebrand.ph
 2. Copy `.env.example` to `.env`.
 3. Run `composer setup`. That installs PHP deps, generates `APP_KEY`, migrates, installs npm packages, and builds frontend assets.
 4. Run `composer dev` for the HTTP server, queue listener, logs, and Vite.
-5. Open the app URL from `.env` (`APP_URL`, default `http://localhost`).
+5. Open the app URL from `.env` (`APP_URL`, default `http://localhost:8000`).
 6. Sign in with the seeder owner if you ran `php artisan db:seed` (`owner@example.com` / `password`). Change that password before any shared deploy.
 7. Connect only the integrations you need. Empty env values stay disabled.
 8. Optional. Rebrand display copy with `php scripts/rebrand.php` before you commit a fork.

@@ -11,7 +11,7 @@ A Sanctum token for an internal user, and a client pointed at `http://localhost:
 1. Copy `.env.example` to `.env` if you have not already.
 2. Run `composer setup`.
 3. Run `composer dev`.
-4. Open `APP_URL` (default `http://localhost`) and sign in as the seeded owner if you ran `php artisan db:seed` (`owner@example.com` / `password`). Change that password before any shared deploy.
+4. Open `APP_URL` (default `http://localhost:8000`) and sign in as the seeded owner if you ran `php artisan db:seed` (`owner@example.com` / `password`). Change that password before any shared deploy.
 
 Empty integration keys stay disabled. You do not need Slack, GitHub, or a model key to sign in.
 
