@@ -2,6 +2,8 @@
 
 The Zao Dashboard exposes a Model Context Protocol (MCP) server that allows LLMs to interface with every part of the dashboard programmatically.
 
+First-run client setup for Cursor, Claude, and other local MCP clients is in [Connect a local assistant](getting-started.md).
+
 ## Quick Start
 
 ### Using with Claude Desktop / Claude Code
