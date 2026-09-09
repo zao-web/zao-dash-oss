@@ -1,0 +1,13 @@
+*
+!private/
+!public/
+!seo/
+!skills/
+skills/*
+!skills/c-f-o/
+!skills/c-f-o/SKILL.md
+!skills/cpa-tax/
+!skills/cpa-tax/SKILL.md
+!skills/tax-resolution/
+!skills/tax-resolution/SKILL.md
+!.gitignore

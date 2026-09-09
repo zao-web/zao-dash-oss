@@ -1,0 +1,20 @@
+{
+    "mcpServers": {
+        "zao-dash": {
+            "command": "npx",
+            "args": [
+                "mcp-remote",
+                "http://localhost:8000/mcp/zao-dash",
+                "--header",
+                "Authorization: Bearer ${ZAO_DASH_MCP_TOKEN}"
+            ]
+        },
+        "laravel-boost": {
+            "command": "php",
+            "args": [
+                "artisan",
+                "boost:mcp"
+            ]
+        }
+    }
+}

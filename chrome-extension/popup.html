@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      width: 320px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #1a1a2e;
+      color: #e8e8e8;
+    }
+    .header {
+      padding: 16px;
+      border-bottom: 1px solid #2d2d44;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .header img {
+      width: 24px;
+      height: 24px;
+    }
+    .header h1 {
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .content {
+      padding: 16px;
+    }
+    .status-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      background: #2d2d44;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      font-size: 12px;
+    }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #666;
+    }
+    .status-dot.connected { background: #4ade80; }
+    .status-dot.recording { background: #f87171; animation: pulse 1s infinite; }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    .auth-section {
+      margin-bottom: 16px;
+    }
+    .auth-section.hidden { display: none; }
+    .input-group {
+      margin-bottom: 12px;
+    }
+    .input-group label {
+      display: block;
+      font-size: 11px;
+      color: #9ca3af;
+      margin-bottom: 4px;
+    }
+    .input-group input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #2d2d44;
+      border-radius: 6px;
+      background: #16162a;
+      color: #e8e8e8;
+      font-size: 13px;
+    }
+    .input-group input:focus {
+      outline: none;
+      border-color: #6366f1;
+    }
+    .btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-primary {
+      background: #6366f1;
+      color: white;
+    }
+    .btn-primary:hover { background: #4f46e5; }
+    .btn-danger {
+      background: #dc2626;
+      color: white;
+    }
+    .btn-danger:hover { background: #b91c1c; }
+    .btn-secondary {
+      background: #2d2d44;
+      color: #e8e8e8;
+    }
+    .btn-secondary:hover { background: #3d3d5c; }
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .record-section {
+      margin-bottom: 16px;
+    }
+    .record-section.hidden { display: none; }
+    .panel {
+      margin-bottom: 16px;
+      padding: 12px;
+      border: 1px solid #2d2d44;
+      border-radius: 8px;
+      background: #16162a;
+    }
+    .panel h2 {
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .panel p {
+      font-size: 11px;
+      color: #9ca3af;
+      line-height: 1.45;
+    }
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .summary-item {
+      padding: 8px;
+      border-radius: 6px;
+      background: #20203a;
+    }
+    .summary-item .label {
+      display: block;
+      font-size: 10px;
+      color: #9ca3af;
+      margin-bottom: 3px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .summary-item .value {
+      font-size: 12px;
+      color: #e8e8e8;
+      font-weight: 600;
+    }
+    .btn-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .btn-row .btn {
+      flex: 1;
+      padding: 10px;
+      font-size: 12px;
+    }
+    .capture-status {
+      font-size: 11px;
+      color: #9ca3af;
+      line-height: 1.45;
+      margin-top: 10px;
+    }
+    .source-select {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .source-btn {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #2d2d44;
+      border-radius: 6px;
+      background: #16162a;
+      color: #9ca3af;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .source-btn:hover { border-color: #6366f1; color: #e8e8e8; }
+    .source-btn.active {
+      border-color: #6366f1;
+      background: rgba(99, 102, 241, 0.1);
+      color: #e8e8e8;
+    }
+    .source-btn svg { width: 20px; height: 20px; }
+    .task-select, .device-select {
+      margin-bottom: 12px;
+    }
+    .device-select label {
+      display: block;
+      font-size: 11px;
+      color: #9ca3af;
+      margin-bottom: 4px;
+    }
+    .task-select select, .device-select select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #2d2d44;
+      border-radius: 6px;
+      background: #16162a;
+      color: #e8e8e8;
+      font-size: 13px;
+    }
+    .recording-controls {
+      display: flex;
+      gap: 8px;
+    }
+    .recording-controls.hidden { display: none; }
+    .timer {
+      font-size: 24px;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 12px;
+      color: #f87171;
+    }
+    .timer.hidden { display: none; }
+    .upload-progress {
+      margin-top: 12px;
+    }
+    .upload-progress.hidden { display: none; }
+    .progress-bar {
+      height: 4px;
+      background: #2d2d44;
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+    .progress-fill {
+      height: 100%;
+      background: #6366f1;
+      transition: width 0.3s;
+    }
+    .progress-text {
+      font-size: 11px;
+      color: #9ca3af;
+      text-align: center;
+    }
+    .error-msg {
+      padding: 10px 12px;
+      background: rgba(220, 38, 38, 0.1);
+      border: 1px solid #dc2626;
+      border-radius: 6px;
+      font-size: 12px;
+      color: #f87171;
+      margin-bottom: 12px;
+    }
+    .error-msg.hidden { display: none; }
+    .success-msg {
+      padding: 16px;
+      text-align: center;
+    }
+    .success-msg.hidden { display: none; }
+    .success-msg svg {
+      width: 48px;
+      height: 48px;
+      color: #4ade80;
+      margin-bottom: 8px;
+    }
+    .success-msg h3 {
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+    .success-msg p {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-bottom: 12px;
+    }
+    .success-msg a {
+      color: #6366f1;
+      text-decoration: none;
+    }
+    .footer {
+      padding: 12px 16px;
+      border-top: 1px solid #2d2d44;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: #6b7280;
+    }
+    .footer a {
+      color: #6366f1;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="10" stroke="#6366f1" stroke-width="2"/>
+      <circle cx="12" cy="12" r="4" fill="#6366f1"/>
+    </svg>
+    <h1>Zao Dash Recorder</h1>
+  </div>
+
+  <div class="content">
+    <div class="status-bar">
+      <div class="status-dot" id="statusDot"></div>
+      <span id="statusText">Not connected</span>
+    </div>
+
+    <div class="error-msg hidden" id="errorMsg"></div>
+
+    <div class="panel" id="taxCapturePanel">
+      <h2>Tax Portal Flow Capture</h2>
+      <p>Capture one IRS or Oregon login session in the current tab. The export keeps selectors, navigation, and request metadata while redacting passwords, typed values, cookies, and query-string values.</p>
+
+      <div class="device-select" style="margin-top:12px">
+        <label>Agency</label>
+        <select id="taxCaptureAgency">
+          <option value="irs">IRS.gov / ID.me</option>
+          <option value="oregon_dor">Oregon Revenue Online</option>
+        </select>
+      </div>
+
+      <div class="summary-grid">
+        <div class="summary-item">
+          <span class="label">Events</span>
+          <span class="value" id="taxCaptureEventCount">0</span>
+        </div>
+        <div class="summary-item">
+          <span class="label">Requests</span>
+          <span class="value" id="taxCaptureRequestCount">0</span>
+        </div>
+        <div class="summary-item">
+          <span class="label">Navigation</span>
+          <span class="value" id="taxCaptureNavigationCount">0</span>
+        </div>
+        <div class="summary-item">
+          <span class="label">State</span>
+          <span class="value" id="taxCaptureStateLabel">Idle</span>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" id="taxCaptureStartBtn">Start Capture</button>
+        <button class="btn btn-danger" id="taxCaptureStopBtn">Stop</button>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-secondary" id="taxCaptureExportBtn">Export JSON</button>
+        <button class="btn btn-secondary" id="taxCaptureClearBtn">Clear</button>
+      </div>
+
+      <div class="capture-status" id="taxCaptureStatus">Open the IRS or Oregon login flow in one browser tab, start capture, complete the login, then stop and export the JSON.</div>
+    </div>
+
+    <!-- Auth Section -->
+    <div class="auth-section" id="authSection">
+      <div class="input-group">
+        <label>API URL</label>
+        <input type="text" id="apiUrl" placeholder="https://your-site.laravel.cloud">
+      </div>
+      <div class="input-group">
+        <label>API Token</label>
+        <input type="password" id="apiToken" placeholder="Your personal access token">
+      </div>
+      <button class="btn btn-primary" id="connectBtn">Connect</button>
+    </div>
+
+    <!-- Record Section -->
+    <div class="record-section hidden" id="recordSection">
+      <div class="source-select">
+        <button class="source-btn active" data-source="screen">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="3" width="20" height="14" rx="2"/>
+            <line x1="8" y1="21" x2="16" y2="21"/>
+            <line x1="12" y1="17" x2="12" y2="21"/>
+          </svg>
+          Screen
+        </button>
+        <button class="source-btn" data-source="camera">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M23 7l-7 5 7 5V7z"/>
+            <rect x="1" y="5" width="15" height="14" rx="2"/>
+          </svg>
+          Camera
+        </button>
+        <button class="source-btn" data-source="both">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="3" width="20" height="14" rx="2"/>
+            <circle cx="18" cy="14" r="3"/>
+          </svg>
+          Both
+        </button>
+      </div>
+
+      <div class="task-select">
+        <select id="taskSelect">
+          <option value="">No task (general recording)</option>
+        </select>
+      </div>
+
+      <div class="device-select">
+        <label>Microphone</label>
+        <select id="micSelect">
+          <option value="">No microphone</option>
+        </select>
+      </div>
+
+      <div class="device-select" id="cameraSelectGroup" style="display:none">
+        <label>Camera (for overlay)</label>
+        <select id="cameraSelect">
+          <option value="">No camera</option>
+        </select>
+      </div>
+
+      <div class="timer hidden" id="timer">00:00</div>
+
+      <button class="btn btn-primary" id="startBtn">Start Recording</button>
+
+      <div class="recording-controls hidden" id="recordingControls">
+        <button class="btn btn-secondary" id="pauseBtn" style="flex:1">Pause</button>
+        <button class="btn btn-danger" id="stopBtn" style="flex:1">Stop</button>
+      </div>
+
+      <div class="upload-progress hidden" id="uploadProgress">
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+        </div>
+        <div class="progress-text" id="progressText">Uploading...</div>
+      </div>
+    </div>
+
+    <!-- Success Section -->
+    <div class="success-msg hidden" id="successSection">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+        <polyline points="22 4 12 14.01 9 11.01"/>
+      </svg>
+      <h3>Video Uploaded!</h3>
+      <p id="videoTitle">Your recording</p>
+      <a href="#" id="videoLink" target="_blank">View Video</a>
+      <button class="btn btn-secondary" id="newRecordingBtn" style="margin-top:12px">New Recording</button>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>v1.0.0</span>
+    <a href="#" id="logoutLink">Disconnect</a>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

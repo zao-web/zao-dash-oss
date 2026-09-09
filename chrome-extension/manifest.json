@@ -1,0 +1,42 @@
+{
+  "manifest_version": 3,
+  "name": "Zao Dash Recorder",
+  "version": "1.0.1",
+  "description": "Record screen and camera videos directly to Zao Dash",
+  "permissions": [
+    "storage",
+    "tabs",
+    "activeTab",
+    "desktopCapture",
+    "offscreen",
+    "notifications",
+    "scripting",
+    "downloads",
+    "webNavigation",
+    "webRequest"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": ["content.js", "overlay.js", "tax-flow-recorder.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["offscreen.html", "offscreen.js"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
