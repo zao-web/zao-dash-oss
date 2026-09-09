@@ -58,13 +58,14 @@ it('refuses a name that would break quoted literals', function (string $name) {
     $result = runRebrand($root, $name, write: true);
 
     expect($result['code'])->toBe(1)
-        ->and($result['output'])->toContain('quotes, backslashes, or backticks')
+        ->and($result['output'])->toContain('quotes, backslashes, backticks, or dollar signs')
         ->and(file_get_contents($root.'/note.md'))->toBe('Zao Dash');
 })->with([
     'apostrophe' => "O'Brien Dash",
     'double quote' => 'North "Star"',
     'backslash' => 'North\\Star',
     'backtick' => 'North`Star',
+    'dollar sign' => 'North$Star',
 ]);
 
 it('does not write files unless --write is passed', function () {
@@ -90,17 +91,21 @@ it('refuses a root that is not this application', function () {
         ->and(file_get_contents($root.'/note.md'))->toBe('Zao Dash');
 });
 
-it('leaves the rebrand instructions file unchanged', function () {
+it('leaves the rebrand instructions and pest fixtures unchanged', function () {
     $root = appLookingRoot();
     mkdir($root.'/docs', 0777, true);
+    mkdir($root.'/tests/Feature/Scripts', 0777, true);
     $needles = "Replaces `Zao Dash` and `Zao Dashboard`.\n";
+    $fixture = "expect(\$guide)->toContain('Zao Dash');\n";
     file_put_contents($root.'/docs/rebrand.md', $needles);
+    file_put_contents($root.'/tests/Feature/Scripts/RebrandTest.php', $fixture);
     file_put_contents($root.'/note.md', 'Zao Dash and Zao Dash');
 
     $result = runRebrand($root, 'Agency Dash', write: true);
 
     expect($result['code'])->toBe(0)
         ->and(file_get_contents($root.'/docs/rebrand.md'))->toBe($needles)
+        ->and(file_get_contents($root.'/tests/Feature/Scripts/RebrandTest.php'))->toBe($fixture)
         ->and(file_get_contents($root.'/note.md'))->toBe('Agency Dash and Agency Dash')
         ->and($result['output'])->toContain('2 replacement(s)');
 });

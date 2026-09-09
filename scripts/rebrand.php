@@ -3,7 +3,7 @@
 
 declare(strict_types=1);
 
-$options = getopt('', ['name:', 'dry-run', 'write', 'root:', 'help']);
+$options = getopt('', ['name:', 'write', 'root:', 'help']);
 $positional = array_values(array_filter(
     $argv,
     static fn (string $arg): bool => ! str_starts_with($arg, '-'),
@@ -28,7 +28,7 @@ if ($name === '' || str_contains($name, "\n") || str_contains($name, "\r")) {
 }
 
 if (preg_match('/[\'"\\\\`$]/', $name) === 1) {
-    fwrite(STDERR, "Name must not contain quotes, backslashes, or backticks.\n");
+    fwrite(STDERR, "Name must not contain quotes, backslashes, backticks, or dollar signs.\n");
     exit(1);
 }
 
@@ -56,6 +56,7 @@ $skipDirs = [
 $skipFiles = [
     'docs/rebrand.md',
     'scripts/rebrand.php',
+    'tests/Feature/Scripts/RebrandTest.php',
 ];
 
 $extensions = [

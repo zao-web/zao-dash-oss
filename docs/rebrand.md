@@ -19,7 +19,7 @@ php scripts/rebrand.php --write
 php scripts/rebrand.php "Northstar OS" --write
 ```
 
-Names cannot contain quotes, backslashes, or backticks. The root must contain `composer.json` and `scripts/rebrand.php`.
+Names cannot contain quotes, backslashes, backticks, or dollar signs. The root must contain `composer.json` and `scripts/rebrand.php`.
 
 ## What it changes
 
@@ -29,7 +29,7 @@ The script walks text files under the repository and replaces these strings, lon
 - `Zao Dash`
 - `ZAO DASH`
 
-It skips `vendor/`, `node_modules/`, `.git/`, `storage/`, and frontend build output. The script does not rewrite `docs/rebrand.md`, so these instructions keep the original search strings.
+It skips `vendor/`, `node_modules/`, `.git/`, `storage/`, and frontend build output. The script does not rewrite `docs/rebrand.md` or `tests/Feature/Scripts/RebrandTest.php`, so the instructions and Pest fixtures keep the original search strings.
 
 Run `php scripts/rebrand.php --write` on a fresh clone before you commit a fork. A second `--write` with the same name changes nothing.
 
